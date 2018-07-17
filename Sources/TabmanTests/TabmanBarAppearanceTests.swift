@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 10/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import XCTest
@@ -23,9 +23,9 @@ class TabmanBarAppearanceTests: TabmanViewControllerTests {
         })
         
         let indicator = self.tabmanViewController.tabmanBar!.indicator!
-        let type = TabmanIndicator.Style.chevron.rawType!
+        let indicatorType = TabmanIndicator.Style.chevron.rawType!
         
-        XCTAssertTrue(type(of: indicator) == type,
+        XCTAssertTrue(type(of: indicator) == indicatorType,
                       "preferredIndicatorStyle is incorrectly ignored when using .buttonBar style")
     }
     
@@ -36,9 +36,9 @@ class TabmanBarAppearanceTests: TabmanViewControllerTests {
         })
         
         let indicator = self.tabmanViewController.tabmanBar!.indicator!
-        let type = TabmanIndicator.Style.dot.rawType!
+        let indicatorType = TabmanIndicator.Style.dot.rawType!
         
-        XCTAssertFalse(type(of: indicator) == type,
+        XCTAssertFalse(type(of: indicator) == indicatorType,
                        "preferredIndicatorStyle is incorrectly conformed to when using .blockTabBar style")
     }
     
@@ -48,7 +48,7 @@ class TabmanBarAppearanceTests: TabmanViewControllerTests {
             appearance.style.background = .blur(style: .dark)
         })
         
-        let backgroundStyle = self.tabmanViewController.tabmanBar!.backgroundView.backgroundStyle
+        let backgroundStyle = self.tabmanViewController.tabmanBar!.backgroundView.style
         XCTAssertTrue(backgroundStyle != .none,
                       "background style in TabmanBarAppearance is ignored incorrectly")
     }

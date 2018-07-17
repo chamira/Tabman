@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 14/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -30,7 +30,7 @@ internal class TabmanBarTransitionStore: Any {
         let itemMaskTransition = TabmanItemMaskTransition()
         
         // create transitions hashmap
-        var transitions: [Int : TabmanTransition] = [:]
+        var transitions: [Int: TabmanTransition] = [:]
         transitions[scrollingIndicatorTransition.hashValue] = scrollingIndicatorTransition
         transitions[staticIndicatorTransition.hashValue] = staticIndicatorTransition
         transitions[itemColorTransition.hashValue] = itemColorTransition

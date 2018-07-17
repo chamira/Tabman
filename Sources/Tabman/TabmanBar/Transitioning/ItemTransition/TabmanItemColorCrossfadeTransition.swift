@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 14/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -18,13 +18,17 @@ class TabmanItemColorCrossfadeTransition: TabmanItemTransition {
                              direction: PageboyViewController.NavigationDirection,
                              indexRange: Range<Int>,
                              bounds: CGRect) {
-        guard let bar = tabmanBar as? TabmanButtonBar else { return }
+        guard let bar = tabmanBar as? TabmanButtonBar else {
+            return
+        }
         
         let (lowerIndex, upperIndex) = TabmanPositionalUtil.lowerAndUpperIndex(forPosition: position,
                                                                                minimum: indexRange.lowerBound,
                                                                                maximum: indexRange.upperBound)
         
-        guard bar.buttons.count > max(upperIndex, lowerIndex) else { return }
+        guard bar.buttons.count > max(upperIndex, lowerIndex) else {
+            return
+        }
         let lowerButton = bar.buttons[lowerIndex]
         let upperButton = bar.buttons[upperIndex]
         

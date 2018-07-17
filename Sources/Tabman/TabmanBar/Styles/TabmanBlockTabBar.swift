@@ -3,11 +3,10 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 09/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
-import PureLayout
 import Pageboy
 
 /// A button tab bar with a block style indicator behind the selected item.
@@ -34,7 +33,9 @@ internal class TabmanBlockTabBar: TabmanStaticButtonBar {
     
     override var color: UIColor {
         didSet {
-            guard color != oldValue else { return }
+            guard color != oldValue else {
+                return
+            }
             
             self.updateButtonsInView(view: self.buttonContentView, update: { (button) in
                 button.tintColor = color
@@ -45,12 +46,27 @@ internal class TabmanBlockTabBar: TabmanStaticButtonBar {
     
     override var selectedColor: UIColor {
         didSet {
-            guard selectedColor != oldValue else { return }
+            guard selectedColor != oldValue else {
+                return
+            }
             
             self.updateButtonsInView(view: self.maskContentView, update: { (button) in
                 button.tintColor = selectedColor
                 button.setTitleColor(selectedColor, for: .normal)
             })
+        }
+    }
+    
+    override var textFont: UIFont {
+        didSet {
+            guard textFont != oldValue else {
+                return
+            }
+
+            updateButtonsInView(view: self.buttonContentView,
+                                update: { $0.titleLabel?.font = textFont })
+            updateButtonsInView(view: self.maskContentView,
+                                update: { $0.titleLabel?.font = textFont })
         }
     }
     
@@ -70,22 +86,22 @@ internal class TabmanBlockTabBar: TabmanStaticButtonBar {
                                    for items: [TabmanBar.Item]) {
         super.construct(in: contentView, for: items)
         
-        let buttonContentView = UIView(forAutoLayout: ())
-        let maskContentView = UIView(forAutoLayout: ())
+        let buttonContentView = UIView()
+        let maskContentView = UIView()
         maskContentView.isUserInteractionEnabled = false
         
         self.contentView.addSubview(buttonContentView)
-        buttonContentView.autoPinEdgesToSuperviewEdges()
+        buttonContentView.pinToSuperviewEdges()
         self.contentView.addSubview(maskContentView)
-        maskContentView.autoPinEdgesToSuperviewEdges()
+        maskContentView.pinToSuperviewEdges()
         maskContentView.mask = self.indicatorMaskView
         
-        self.addAndLayoutBarButtons(toView: buttonContentView, items: items) { (button, previousButton) in
+        self.addAndLayoutBarButtons(toView: buttonContentView, items: items) { (button, _) in
             self.buttons.append(button)
             
             button.addTarget(self, action: #selector(tabButtonPressed(_:)), for: .touchUpInside)
         }
-        self.addAndLayoutBarButtons(toView: maskContentView, items: items) { (button, previousButton) in
+        self.addAndLayoutBarButtons(toView: maskContentView, items: items) { (button, _) in
             button.tintColor = self.selectedColor
             button.setTitleColor(self.selectedColor, for: .normal)
         }

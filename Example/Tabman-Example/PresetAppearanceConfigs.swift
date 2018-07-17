@@ -3,7 +3,7 @@
 //  Tabman-Example
 //
 //  Created by Merrick Sapsford on 10/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import Foundation
@@ -15,40 +15,33 @@ class PresetAppearanceConfigs: Any {
         let appearance = currentAppearance ?? TabmanBar.Appearance.defaultAppearance
         appearance.indicator.bounces = false
         appearance.indicator.compresses = false
+        appearance.style.background = .blur(style: .dark)
+        
+        appearance.state.color = UIColor.white.withAlphaComponent(0.4)
+        appearance.state.selectedColor = UIColor.white.withAlphaComponent(0.8)
+        appearance.indicator.color = UIColor.white.withAlphaComponent(0.8)
         
         switch style {
 
         case .bar:
-            appearance.style.background = .solid(color: UIColor.white.withAlphaComponent(0.3))
-            appearance.indicator.color = .white
             appearance.indicator.lineWeight = .thick
             
         case .scrollingButtonBar:
-            appearance.state.color = UIColor.white.withAlphaComponent(0.6)
-            appearance.state.selectedColor = UIColor.white
-            appearance.style.background = .blur(style: .light)
-            appearance.indicator.color = UIColor.white
             appearance.layout.itemVerticalPadding = 16.0
             appearance.indicator.bounces = true
             appearance.indicator.lineWeight = .normal
             appearance.layout.edgeInset = 16.0
             appearance.layout.interItemSpacing = 20.0
+            appearance.style.showEdgeFade = true
 
         case .buttonBar:
-            appearance.state.color = UIColor.white.withAlphaComponent(0.6)
-            appearance.state.selectedColor = UIColor.white
-            appearance.style.background = .blur(style: .light)
-            appearance.indicator.color = UIColor.white
             appearance.indicator.lineWeight = .thin
             appearance.indicator.compresses = true
             appearance.layout.edgeInset = 8.0
             appearance.layout.interItemSpacing = 0.0
             
         case .blockTabBar:
-            appearance.state.color = UIColor.white.withAlphaComponent(0.6)
-            appearance.state.selectedColor = UIColor(red:0.00, green:0.45, blue:1.00, alpha:1.0)
-            appearance.style.background = .solid(color: UIColor.white.withAlphaComponent(0.3))
-            appearance.indicator.color = UIColor.white.withAlphaComponent(0.8)
+            appearance.indicator.color = UIColor.white.withAlphaComponent(0.3)
             appearance.layout.edgeInset = 0.0
             appearance.layout.interItemSpacing = 0.0
             appearance.indicator.bounces = true
@@ -56,6 +49,8 @@ class PresetAppearanceConfigs: Any {
         default:
             appearance.style.background = .blur(style: .light)
         }
+        
+        appearance.text.font = UIFont.systemFont(ofSize: 16.0, weight: .bold)
         
         return appearance
     }

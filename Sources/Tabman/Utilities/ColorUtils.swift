@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 22/02/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -11,8 +11,8 @@ import UIKit
 internal extension UIColor {
     
     static func interpolate(betweenColor colorA: UIColor,
-                     and colorB: UIColor,
-                     percent: CGFloat) -> UIColor? {
+                            and colorB: UIColor,
+                            percent: CGFloat) -> UIColor? {
         var redA: CGFloat = 0.0
         var greenA: CGFloat = 0.0
         var blueA: CGFloat = 0.0
@@ -29,11 +29,11 @@ internal extension UIColor {
             return nil
         }
         
-        let iRed = Float(redA + percent * (redB - redA))
-        let iBlue = Float(blueA + percent * (blueB - blueA))
-        let iGreen = Float(greenA + percent * (greenB - greenA))
-        let iAlpha = Float(alphaA + percent * (alphaB - alphaA))
+        let iRed = CGFloat(redA + percent * (redB - redA))
+        let iBlue = CGFloat(blueA + percent * (blueB - blueA))
+        let iGreen = CGFloat(greenA + percent * (greenB - greenA))
+        let iAlpha = CGFloat(alphaA + percent * (alphaB - alphaA))
         
-        return UIColor(colorLiteralRed: iRed, green: iGreen, blue: iBlue, alpha: iAlpha)
+        return UIColor(red: iRed, green: iGreen, blue: iBlue, alpha: iAlpha)
     }
 }

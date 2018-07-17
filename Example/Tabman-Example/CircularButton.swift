@@ -3,7 +3,7 @@
 //  Tabman-Example
 //
 //  Created by Merrick Sapsford on 27/02/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -18,6 +18,12 @@ import UIKit
         }
     }
     
+    override var tintColor: UIColor! {
+        didSet {
+            layer.borderColor = tintColor.cgColor
+        }
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.initButton()
@@ -29,7 +35,7 @@ import UIKit
     }
     
     private func initButton() {
-        self.layer.borderColor = UIColor.white.cgColor
+        self.layer.borderColor = tintColor.cgColor
         self.layer.borderWidth = 1.0
     }
     

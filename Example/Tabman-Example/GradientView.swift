@@ -3,7 +3,7 @@
 //  Pageboy-Example
 //
 //  Created by Merrick Sapsford on 15/02/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -15,6 +15,7 @@ import UIKit
         case leftToRight
         case rightToLeft
         case bottomToTop
+        case custom(start: CGPoint, end: CGPoint)
     }
     
     // MARK: Properties
@@ -110,6 +111,10 @@ import UIKit
         case .bottomToTop:
             self.gradientLayer?.startPoint = CGPoint(x: 0.5, y: 1.0)
             self.gradientLayer?.endPoint = CGPoint(x: 0.5, y: 0.0)
+            
+        case .custom(let start, let end):
+            gradientLayer?.startPoint = start
+            gradientLayer?.endPoint = end
         }
     }
 }

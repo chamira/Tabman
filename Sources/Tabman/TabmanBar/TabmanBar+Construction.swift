@@ -3,11 +3,10 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 15/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
-import PureLayout
 import Pageboy
 
 // MARK: - TabmanBar construction
@@ -19,13 +18,17 @@ extension TabmanBar {
         self.indicatorLeftMargin?.isActive = false
         self.clearBar()
         
-        guard let items = self.items else { return } // no items yet
+        // no items yet
+        guard let items = self.items else {
+            return
+        }
         
         construct(in: contentView, for: items)
         if let indicator = self.indicator {
             add(indicator: indicator, to: contentView)
         }
         
+        behaviorEngine.update(activation: .onBarChange)
         self.updateCore(forAppearance: self.appearance)
         self.updateForCurrentPosition()
     }

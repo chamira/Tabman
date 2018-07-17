@@ -3,8 +3,10 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 22/02/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
+
+// swiftlint:disable nesting
 
 import UIKit
 
@@ -31,6 +33,15 @@ public extension TabmanBar {
             public var useRoundedCorners: Bool?
         }
         
+        public struct Separator {
+            /// Edge insets for the bottom separator relative to the bar.
+            public var edgeInsets: UIEdgeInsets?
+            /// The height of the separator at the bottom of the bar.
+            public var height: SeparatorHeight?
+            /// Color of the separator at the bottom of the bar.
+            public var color: UIColor?
+        }
+        
         public struct Interaction {
             /// Whether user scroll is enabled on a scrolling button bar.
             public var isScrollEnabled: Bool?
@@ -42,15 +53,20 @@ public extension TabmanBar {
             ///
             /// - leftAligned: Items will be laid out from the left of the bar.
             /// - centered: Items will be laid out from the center of the bar.
+            /// - fill: Only applicable to scrolling button bar. Items will be padded with extra inter-item spacing if laying them out normally doesn't fill the entire width of the bar.
             public enum ItemDistribution {
                 case leftAligned
                 case centered
+                case fill
             }
             
             /// The spacing between items in the bar.
             public var interItemSpacing: CGFloat?
             /// The spacing at the edge of the items in the bar.
             public var edgeInset: CGFloat?
+            /// Edge insets for the bottom separator relative to the bar.
+            @available(*, deprecated: 1.7.0, message: "Use appearance.bottomSeparator.edgeInsets")
+            public var bottomSeparatorEdgeInsets: UIEdgeInsets?
             /// The height for the bar.
             public var height: TabmanBar.Height?
             /// The vertical padding between the item and the bar bounds.
@@ -59,6 +75,10 @@ public extension TabmanBar {
             public var itemDistribution: ItemDistribution?
             /// The minimum width for item
             public var minimumItemWidth: CGFloat?
+            /// Whether to extend the background edge insets in certain scenarios.
+            /// For example when the bar is against the status bar, the background 
+            /// will extend underneath the status bar.
+            public var extendBackgroundEdgeInsets: Bool?
         }
         
         public struct State {
@@ -67,41 +87,49 @@ public extension TabmanBar {
             /// The text color to use for unselected items in the bar (text/images etc.).
             public var color: UIColor?
             /// Whether to hide bar when there is only a single item
+            @available(*, deprecated: 1.7.0, message: "Use Behavior.AutoHiding instead")
             public var shouldHideWhenSingleItem: Bool?
         }
         
         public struct Style {
             /// The background style for the bar.
-            public var background: TabmanBarBackgroundView.BackgroundStyle?
+            public var background: TabmanBar.BackgroundView.Style?
             /// Whether to show a fade on the items at the bounds edge of a scrolling button bar.
             public var showEdgeFade: Bool?
             /// Color of the separator at the bottom of the bar.
+            @available(*, deprecated: 1.7.0, message: "Use appearance.bottomSeparator.color")
             public var bottomSeparatorColor: UIColor?
+            /// The image rendering mode for items that have an image
+            public var imageRenderingMode: UIImageRenderingMode?
         }
         
         public struct Text {
             /// The font to use for text labels in the bar.
             public var font: UIFont?
+            /// The selected font to use for text labels in the bar.
+            public var selectedFont: UIFont?
         }
         
         // MARK: Properties
         
         /// The indicator configuration.
-        public lazy var indicator = Indicator()
+        public var indicator = Indicator()
+        /// Bottom separator configuration.
+        public var bottomSeparator = Separator()
         /// The state configuration.
-        public lazy var state = State()
+        public var state = State()
         /// Text display configuration.
-        public lazy var text = Text()
+        public var text = Text()
         /// Layout configuration.
-        public lazy var layout = Layout()
+        public var layout = Layout()
         /// Bar style configuration.
-        public lazy var style = Style()
+        public var style = Style()
         /// Bar interaction configuration
-        public lazy var interaction = Interaction()
+        public var interaction = Interaction()
         
         // MARK: Init
 
-        public init(_ appearance: (Appearance) -> ()) {
+        public init(_ appearance: (Appearance) -> Void) {
             self.setDefaultValues()
             appearance(self)
         }
@@ -115,35 +143,41 @@ public extension TabmanBar {
         private func setDefaultValues() {
             
             // indicator
-            self.indicator.bounces = false
-            self.indicator.compresses = false
-            self.indicator.isProgressive = false
-            self.indicator.useRoundedCorners = false
-            self.indicator.lineWeight = .normal
-            self.indicator.color = UIView.defaultTintColor
+            indicator.bounces = false
+            indicator.compresses = false
+            indicator.isProgressive = false
+            indicator.useRoundedCorners = false
+            indicator.lineWeight = .normal
+            indicator.color = UIView.defaultTintColor
+            
+            // bottom separator
+            bottomSeparator.edgeInsets = .zero
+            bottomSeparator.height = .default
+            bottomSeparator.color = .clear
             
             // state
-            self.state.selectedColor = .black
-            self.state.color = UIColor.black.withAlphaComponent(0.5)
-            self.state.shouldHideWhenSingleItem = false
+            state.selectedColor = .black
+            state.color = UIColor.black.withAlphaComponent(0.5)
+            state.shouldHideWhenSingleItem = false
             
             // text
-            self.text.font = UIFont.systemFont(ofSize: 16.0)
-            
+            text.font = UIFont.systemFont(ofSize: 16.0)
+
             // layout
-            self.layout.height = .auto
-            self.layout.interItemSpacing = 20.0
-            self.layout.edgeInset = 16.0
-            self.layout.itemVerticalPadding = 12.0
-            self.layout.itemDistribution = .leftAligned
-            self.layout.minimumItemWidth = 44.0
+            layout.height = .auto
+            layout.interItemSpacing = 20.0
+            layout.edgeInset = 16.0
+            layout.itemVerticalPadding = 12.0
+            layout.itemDistribution = .leftAligned
+            layout.minimumItemWidth = 44.0
+            layout.extendBackgroundEdgeInsets = true
             
             // style
-            self.style.background = .blur(style: .extraLight)
-            self.style.bottomSeparatorColor = .clear
-            
+            style.background = .blur(style: .extraLight)
+            style.imageRenderingMode = .alwaysTemplate
+          
             // interaction
-            self.interaction.isScrollEnabled = true
+            interaction.isScrollEnabled = true
         }
     }
 }

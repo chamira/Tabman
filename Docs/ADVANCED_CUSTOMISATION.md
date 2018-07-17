@@ -33,7 +33,7 @@ override func usePreferredIndicatorStyle() -> Bool {
 }
 
 override func construct(in contentView: UIView,
-                        for items: [TabmanBarItem]) {
+                        for items: [TabmanBar.Item]) {
 	// create your bar here     
 }
 
@@ -46,8 +46,8 @@ override func update(forPosition position: CGFloat,
                 indexRange: Range<Int>,
                 bounds: CGRect) {
 	super.update(forPosition: position, direction: direction,
-				 indexRange: Range<Int>,
-				 bounds: CGRect)
+				 indexRange: indexRange,
+				 bounds: bounds)
 				 
 	// update your bar contents for a positional update here              
 }
@@ -76,10 +76,10 @@ override func viewDidLoad() {
 ```
 
 ### Using a custom TabmanIndicator
-As seen above, when creating a `TabmanBar` subclass you can specify the style for the indicator in `indicatorStyle()`.
+As seen above, when creating a `TabmanBar` subclass you can specify the style for the indicator in `defaultIndicatorStyle()`.
 
 ```swift
-override func indicatorStyle() -> TabmanIndicator.Style {
+override func defaultIndicatorStyle() -> TabmanIndicator.Style {
 	return .line
 }
 ```
@@ -110,7 +110,7 @@ public override func constructIndicator() {
 3) Configure your custom `TabmanBar` to use your custom indicator.
 
 ```swift
-override func indicatorStyle() -> TabmanIndicator.Style {
+override func defaultIndicatorStyle() -> TabmanIndicator.Style {
 	return .custom(type: MyCustomIndicator.self)
 }
 ```
@@ -144,7 +144,7 @@ func detachAttachedBar() -> TabmanBar?
 ## Embedding TabmanBar in an external view
 You can also embed the internally managed `TabmanBar` in an external view. This allows for all the advantages of internal management (Style switching etc.) but in a specified view elsewhere in the view hierarchy.
 
-This is available with the `embedBar(inView:)` function.
+This is available with the `embedBar(in view: UIView)` function.
 
 ```swift
 class MyTabmanViewController: TabmanViewController {
@@ -154,7 +154,7 @@ class MyTabmanViewController: TabmanViewController {
 	func viewDidLoad() {
 		super.viewDidLoad()
 		
-		self.embedBar(inView: customBarView)
+		self.embedBar(in: customBarView)
 	}
 }
 

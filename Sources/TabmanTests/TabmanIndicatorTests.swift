@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 08/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import XCTest
@@ -19,7 +19,7 @@ class TabmanIndicatorTests: XCTestCase {
     }
 }
 
-fileprivate class TabmanTestBarWithIndicator: TabmanTestBar {
+private class TabmanTestBarWithIndicator: TabmanTestBar {
     
     override func defaultIndicatorStyle() -> TabmanIndicator.Style {
         return .custom(type: TabmanTestIndicator.self)

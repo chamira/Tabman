@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 14/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import Foundation
@@ -51,7 +51,7 @@ internal class TabmanTransition: Any, TabmanTransitionLifecycle {
 
 extension TabmanTransition: Hashable, Equatable {
     
-    static func ==(lhs: TabmanTransition, rhs: TabmanTransition) -> Bool {
+    static func == (lhs: TabmanTransition, rhs: TabmanTransition) -> Bool {
         return String(describing: lhs) == String(describing: rhs)
     }
     

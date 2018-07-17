@@ -17,14 +17,14 @@ platform :ios do
   lane :test do
     bootstrap
     scan(workspace: "Tabman.xcworkspace", scheme: "Tabman", clean: true)
-    pod_lib_lint(verbose: true)
+    pod_lib_lint(verbose: false, allow_warnings: true)
   end
 
   desc "Deploy a new version to CocoaPods and GitHub"
   lane :deploy do
-    podspec = "Tabman.podspec"
+    test
 
-    # get Podspec version
+    podspec = "Tabman.podspec"
     version = version_get_podspec(path: podspec)
 
     # Push new Github release

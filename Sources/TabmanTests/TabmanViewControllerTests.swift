@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 08/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import XCTest
@@ -18,7 +18,9 @@ class TabmanViewControllerTests: XCTestCase {
         super.setUp()
         
         self.tabmanViewController = TabmanTestViewController()
-        self.tabmanViewController.loadViewIfNeeded()
+        if #available(iOS 9.0, *) {
+            self.tabmanViewController.loadViewIfNeeded()
+        }
     }
     
     /// Test that the item count limit on a TabmanBar is correctly handled
@@ -82,7 +84,7 @@ class TabmanViewControllerTests: XCTestCase {
     /// Test that TambmanViewController handles embedding internal TabmanBar in an external view.
     func testEmbedBarExternally() {
         let testView = UIView()
-        self.tabmanViewController.embedBar(inView: testView)
+        self.tabmanViewController.embedBar(in: testView)
         
         XCTAssertTrue(testView.subviews.count != 0 &&
             self.tabmanViewController.tabmanBar?.superview === testView &&
@@ -93,7 +95,7 @@ class TabmanViewControllerTests: XCTestCase {
     /// Test that TambmanViewController handles disembedding internal TabmanBar from an external view.
     func testDisembedBar() {
         let testView = UIView()
-        self.tabmanViewController.embedBar(inView: testView)
+        self.tabmanViewController.embedBar(in: testView)
 
         self.tabmanViewController.disembedBar()
         

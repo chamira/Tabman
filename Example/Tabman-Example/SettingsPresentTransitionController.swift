@@ -3,7 +3,7 @@
 //  Tabman-Example
 //
 //  Created by Merrick Sapsford on 27/02/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -11,7 +11,7 @@ import UIKit
 class SettingsPresentTransitionController: NSObject, UIViewControllerAnimatedTransitioning {
 
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 0.3
+        return 0.6
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
@@ -21,7 +21,7 @@ class SettingsPresentTransitionController: NSObject, UIViewControllerAnimatedTra
         let containerView = transitionContext.containerView
         
         let screenBounds = UIScreen.main.bounds
-        let topOffset: CGFloat = 80.0
+        let topOffset: CGFloat = 160.0
         
         var finalFrame = transitionContext.finalFrame(for: toViewController)
         finalFrame.origin.y += topOffset
@@ -32,12 +32,18 @@ class SettingsPresentTransitionController: NSObject, UIViewControllerAnimatedTra
                                              height: finalFrame.size.height)
         containerView.addSubview(toViewController.view)
         
-        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, options: .curveEaseOut,
-                       animations: { 
-                        toViewController.view.frame = finalFrame
-                        fromViewController.view.alpha = 0.3
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1.0, options: .curveEaseOut, animations: {
+            toViewController.view.frame = finalFrame
+            fromViewController.view.alpha = 0.3
         }) { (finished) in
             transitionContext.completeTransition(finished)
+        }
+        
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, options: .curveEaseOut,
+                       animations: { 
+                        
+        }) { (finished) in
+            
         }
     }
 }

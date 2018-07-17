@@ -3,7 +3,7 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 14/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
@@ -17,9 +17,14 @@ class TabmanStaticBarIndicatorTransition: TabmanIndicatorTransition {
                              direction: PageboyViewController.NavigationDirection,
                              indexRange: Range<Int>,
                              bounds: CGRect) {
-        guard let bar = tabmanBar else { return }
+        guard let bar = tabmanBar else {
+            return
+        }
         
         var barWidth = bounds.size.width
+        if #available(iOS 11, *) {
+            barWidth -= (bar.safeAreaInsets.left + bar.safeAreaInsets.right)
+        }
         
         // account for padding if using a button bar.
         var indicatorPadding: CGFloat = 0.0
@@ -64,10 +69,10 @@ class TabmanStaticBarIndicatorTransition: TabmanIndicatorTransition {
                 let progress = CGFloat(modff(Float(position), &integral))
 
                 let indicatorDiff = (indicatorWidth * fabs(progress))
-                indicatorWidth = indicatorWidth - indicatorDiff
+                indicatorWidth -= indicatorDiff
                 
                 if progress > 0.0 {
-                    indicatorLeftMargin = indicatorLeftMargin + indicatorDiff
+                    indicatorLeftMargin += indicatorDiff
                 }
             }
             

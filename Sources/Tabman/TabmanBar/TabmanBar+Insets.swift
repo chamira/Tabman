@@ -6,7 +6,8 @@
 //
 //
 
-import Foundation
+import UIKit
+import AutoInsetter
 
 public extension TabmanBar {
     
@@ -15,11 +16,8 @@ public extension TabmanBar {
         
         /// Raw TabmanBar UIEdgeInsets
         internal let barInsets: UIEdgeInsets
-        
-        /// The inset required for the top layout guide (UINavigationBar etc.).
-        public let topLayoutGuide: CGFloat
-        /// The inset required for the bottom layout guide (UITabBar etc.).
-        public let bottomLayoutGuide: CGFloat
+        /// The insets that determine the safe area for the view controller view.
+        public let safeArea: UIEdgeInsets
         /// The inset required for the bar.
         public var bar: CGFloat {
             return max(barInsets.top, barInsets.bottom)
@@ -30,29 +28,22 @@ public extension TabmanBar {
         /// This takes topLayoutGuide, bottomlayoutGuide and the bar height into account.
         /// Set on a UIScrollView's contentInset to manually inset the contents.
         public var all: UIEdgeInsets {
-            let top = topLayoutGuide + barInsets.top
-            let bottom = bottomLayoutGuide + barInsets.bottom
+            let top = safeArea.top + barInsets.top
+            let bottom = safeArea.bottom + barInsets.bottom
             
-            if barInsets.top > 0.0 {
-                return UIEdgeInsetsMake(top, 0.0, 0.0, 0.0)
-            } else {
-                return UIEdgeInsetsMake(0.0, 0.0, bottom, 0.0)
-            }
+            return UIEdgeInsets(top: top, left: 0.0, bottom: bottom, right: 0.0)
         }
         
         // MARK: Init
         
-        internal init(topLayoutGuide: CGFloat,
-                      bottomLayoutGuide: CGFloat,
+        internal init(safeAreaInsets: UIEdgeInsets,
                       bar: UIEdgeInsets) {
-            self.topLayoutGuide = topLayoutGuide
-            self.bottomLayoutGuide = bottomLayoutGuide
+            self.safeArea = safeAreaInsets
             self.barInsets = bar
         }
         
         internal init() {
-            self.init(topLayoutGuide: 0.0,
-                      bottomLayoutGuide: 0.0,
+            self.init(safeAreaInsets: .zero,
                       bar: .zero)
         }
         
@@ -61,6 +52,26 @@ public extension TabmanBar {
         }
         
     }
-
 }
 
+extension TabmanBar.Insets: AutoInsetSpec {
+    
+    public var additionalRequiredInsets: UIEdgeInsets {
+        return barInsets
+    }
+    
+    public var allRequiredInsets: UIEdgeInsets {
+        return all
+    }
+}
+
+public extension UIViewController {
+    
+    /// The required insets for the TabmanBar in a parent TabmanViewController.
+    public var parentTabmanBarInsets: TabmanBar.Insets? {
+        guard let tabmanViewController = parentPageboyViewController as? TabmanViewController else {
+            return nil
+        }
+        return tabmanViewController.bar.requiredInsets
+    }
+}

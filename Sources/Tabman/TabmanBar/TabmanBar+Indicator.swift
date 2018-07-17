@@ -3,11 +3,10 @@
 //  Tabman
 //
 //  Created by Merrick Sapsford on 15/03/2017.
-//  Copyright © 2017 Merrick Sapsford. All rights reserved.
+//  Copyright © 2018 UI At Six. All rights reserved.
 //
 
 import UIKit
-import PureLayout
 import Pageboy
 
 // MARK: - TabmanBar Indicator creation and mutation
@@ -39,13 +38,17 @@ extension TabmanBar {
             
             // restore default if no preferred style
             self.indicator = self.create(indicatorForStyle: self.defaultIndicatorStyle())
-            guard self.indicator != nil else { return }
-            add(indicator: indicator!, to: contentView)
+            guard let indicator = self.indicator else {
+                return
+            }
+            add(indicator: indicator, to: contentView)
             self.updateForCurrentPosition()
             
             return
         }
-        guard self.usePreferredIndicatorStyle() else { return }
+        guard self.usePreferredIndicatorStyle() else {
+            return
+        }
         
         // return nil if same type as current indicator
         if let indicator = self.indicator {
@@ -56,14 +59,16 @@ extension TabmanBar {
         
         // Create new preferred style indicator.
         self.indicator = self.create(indicatorForStyle: preferredIndicatorStyle)
-        guard self.indicator != nil else { return }
+        guard let indicator = self.indicator else {
+            return
+        }
         
         // disable progressive indicator if indicator does not support it. 
         if self.indicator?.isProgressiveCapable == false && self.indicatorIsProgressive {
             self.indicatorIsProgressive = false
         }
         
-        add(indicator: indicator!, to: contentView)
+        add(indicator: indicator, to: contentView)
         self.updateForCurrentPosition()
     }
 
